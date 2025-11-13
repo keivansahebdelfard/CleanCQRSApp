@@ -1,0 +1,168 @@
+## Visual Studio / .NET / Angular optimized .gitignore
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+mono_crash.*
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+[Aa][Rr][Mm]*/ 
+bld/
+[Ll]og/
+
+# Visual Studio cache and temporary files
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.localhistory/
+.history/
+
+# Angular / Node.js
+.angular/
+.angular/cache/
+node_modules/
+dist/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+_Chutzpah*
+coverage*.json
+coverage*.xml
+*.coverage
+*.coveragexml
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+OpenCover/
+.axoCover/*
+!.axoCover/settings.json
+
+# VS and C++ temp files
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.vspscc
+*.vssscc
+*.builds
+*.plg
+*.opt
+*.vbw
+*.vbp
+*.dsw
+*.dsp
+*.ncb
+*.aps
+ipch/
+*.VC.db
+*.VC.VC.opendb
+*.cachefile
+
+# ReSharper / JetBrains
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.sln.iml
+
+# TeamCity / DotCover / Other coverage tools
+_TeamCity*
+*.dotCover
+*.jmconfig
+
+# StyleCop / GhostDoc
+StyleCopReport.xml
+*.GhostDoc.xml
+
+# EF Core Migrations
+**/Migrations/*.Designer.cs
+
+# ASP.NET / Scaffolding / Publish
+ScaffoldingReadMe.txt
+publish/
+*.pubxml
+*.publishproj
+*.azurePubxml
+PublishScripts/
+
+# NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+
+# Azure / Windows Store / App Packages
+csx/
+*.build.csdef
+ecf/
+rcf/
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx*
+*.appxbundle
+*.appxupload
+
+# SQL Server / DB
+*.mdf
+*.ndf
+*.ldf
+
+# EF / BI / Reports / Documentation
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+*.rptproj.rsuser
+*- [Bb]ackup*.rdl
+Generated_Code/
+DocProject/buildhelp/
+DocProject/Help/**
+
+# Local / temporary files
+*~ 
+~$*
+*.log
+*.webp
+*.tmp
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+FakesAssemblies/
+MigrationBackup/
+healthchecksdb
