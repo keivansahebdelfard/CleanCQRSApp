@@ -1,6 +1,11 @@
-## Visual Studio / .NET / Angular optimized .gitignore
+## ================================
+## ASP.NET Core + Angular + EF Core
+## Optimized & Future-proof .gitignore
+## ================================
 
-# User-specific files
+# ================================
+# User-specific / IDE files
+# ================================
 *.rsuser
 *.suo
 *.user
@@ -9,7 +14,23 @@
 *.userprefs
 mono_crash.*
 
-# Build results
+# Visual Studio / JetBrains / Rider / VS Code
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.localhistory/
+.history/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.sln.iml
+
+# ================================
+# Build output
+# ================================
 [Bb]in/
 [Oo]bj/
 [Dd]ebug*/
@@ -19,24 +40,23 @@ x86/
 [Aa][Rr][Mm]*/ 
 bld/
 [Ll]og/
+*.log
+*.tmp
 
-# Visual Studio cache and temporary files
-.vs/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.localhistory/
-.history/
-
+# ================================
 # Angular / Node.js
+# ================================
 .angular/
 .angular/cache/
 node_modules/
 dist/
+*.env
+*.env.local
+*.env.*.local
 
-# Test results
+# ================================
+# Test results / Coverage
+# ================================
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 *.VisualState.xml
@@ -54,7 +74,9 @@ OpenCover/
 .axoCover/*
 !.axoCover/settings.json
 
-# VS and C++ temp files
+# ================================
+# C++ / VS temp files
+# ================================
 *_i.c
 *_p.c
 *_h.h
@@ -72,7 +94,6 @@ OpenCover/
 *.tlb
 *.tli
 *.tlh
-*.tmp
 *.tmp_proj
 *_wpftmp.csproj
 *.vspscc
@@ -91,25 +112,15 @@ ipch/
 *.VC.VC.opendb
 *.cachefile
 
-# ReSharper / JetBrains
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
-*.sln.iml
-
-# TeamCity / DotCover / Other coverage tools
-_TeamCity*
-*.dotCover
-*.jmconfig
-
-# StyleCop / GhostDoc
-StyleCopReport.xml
-*.GhostDoc.xml
-
-# EF Core Migrations
+# ================================
+# EF Core / Migrations
+# ================================
 **/Migrations/*.Designer.cs
+**/Migrations/*.snapshot.cs
 
+# ================================
 # ASP.NET / Scaffolding / Publish
+# ================================
 ScaffoldingReadMe.txt
 publish/
 *.pubxml
@@ -117,15 +128,22 @@ publish/
 *.azurePubxml
 PublishScripts/
 
-# NuGet
+# ================================
+# NuGet / Paket
+# ================================
 **/[Pp]ackages/*
 !**/[Pp]ackages/build/
 *.nupkg
 *.snupkg
 *.nuget.props
 *.nuget.targets
+.paket/paket.exe
+paket-files/
+.fake/
 
+# ================================
 # Azure / Windows Store / App Packages
+# ================================
 csx/
 *.build.csdef
 ecf/
@@ -138,12 +156,17 @@ _pkginfo.txt
 *.appxbundle
 *.appxupload
 
-# SQL Server / DB
+# ================================
+# SQL Server / DB / EF
+# ================================
 *.mdf
 *.ndf
 *.ldf
+*.dbmdl
 
-# EF / BI / Reports / Documentation
+# ================================
+# BI / Reports / Documentation
+# ================================
 *.rdl.data
 *.bim.layout
 *.bim_*.settings
@@ -153,14 +176,12 @@ Generated_Code/
 DocProject/buildhelp/
 DocProject/Help/**
 
-# Local / temporary files
-*~ 
+# ================================
+# Local / temp / backup
+# ================================
+*~
 ~$*
-*.log
 *.webp
-*.tmp
-*.dbmdl
-*.jfm
 *.pfx
 *.publishsettings
 FakesAssemblies/
