@@ -7,7 +7,6 @@ using MyApp.Application.Commands;
 using MyApp.Application.Interfaces;
 using MyApp.Infrastructure.Data;
 using MyApp.Infrastructure.Repositories;
-using MyApp.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +30,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(
-        typeof(CreateProductCommand).Assembly, // Application Handlers
-        typeof(ProductController).Assembly,      // Web Controllers
-        typeof(handler).Assembly   // یا فقط Handler Assembly
-
+        typeof(CreateProductCommand).Assembly // Application Handlers
     );
 });
 

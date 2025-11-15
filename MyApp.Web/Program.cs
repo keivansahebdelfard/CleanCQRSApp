@@ -1,7 +1,7 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Application.Commands;
 using MyApp.Application.Interfaces;
+using MyApp.Application.Queries;
 using MyApp.Infrastructure.Data;
 using MyApp.Infrastructure.Repositories;
 
@@ -19,7 +19,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssemblies(typeof(CreateProductCommand).Assembly);
+    cfg.RegisterServicesFromAssemblies(typeof(CreateProductCommand).Assembly, typeof(GetProductByIdQuery).Assembly);
 });
 
 var app = builder.Build();
