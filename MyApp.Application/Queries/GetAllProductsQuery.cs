@@ -1,7 +1,7 @@
 using MediatR;
-using MyApp.Domain.Entities;
+using MyApp.Application.DTOs.Product;
 using System.Collections.Generic;
 
 namespace MyApp.Application.Queries;
 
-public record GetAllProductsQuery() : IRequest<List<Product>>;
+public record GetAllProductsQuery() : IRequest<List<ProductDto>>;

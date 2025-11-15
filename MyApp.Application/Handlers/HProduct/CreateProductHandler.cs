@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MyApp.Application.Commands;
+using MyApp.Application.DTOs.Product;
 using MyApp.Application.Interfaces;
 using MyApp.Domain.Entities;
 using System.Threading;
@@ -7,17 +8,21 @@ using System.Threading.Tasks;
 
 namespace MyApp.Application.Handlers.HProduct
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDto>
     {
         private readonly IProductRepository _repo;
         public CreateProductHandler(IProductRepository repo) => _repo = repo;
 
-        public async Task<Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = new Product { Name = request.Name, Price = request.Price };
-            await _repo.AddAsync(product);
-            return product;
+            var entity = new Product
+            {
+                Name = request.Name,
+                Price = request.Price
+            };
+
+            var created = await _repo.AddAsync(entity);
+            return new ProductDto(created.Id, created.Name, created.Price);
         }
     }
-
 }

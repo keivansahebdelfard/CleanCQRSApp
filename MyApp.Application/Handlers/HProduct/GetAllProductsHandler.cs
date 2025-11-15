@@ -1,22 +1,23 @@
 ﻿using MediatR;
+using MyApp.Application.DTOs.Product;
 using MyApp.Application.Interfaces;
 using MyApp.Application.Queries;
-using MyApp.Domain.Entities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyApp.Application.Handlers.HProduct
 {
-    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, List<Product>>
+    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
     {
         private readonly IProductRepository _repo;
         public GetAllProductsHandler(IProductRepository repo) => _repo = repo;
 
-        public async Task<List<Product>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _repo.GetAllAsync();
+            var products = await _repo.GetAllAsync();
+            return products.Select(p => new ProductDto(p.Id, p.Name, p.Price)).ToList();
         }
     }
-
 }

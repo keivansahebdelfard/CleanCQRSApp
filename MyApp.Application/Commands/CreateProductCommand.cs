@@ -1,6 +1,6 @@
 using MediatR;
-using MyApp.Domain.Entities;
+using MyApp.Application.DTOs.Product;
 
 namespace MyApp.Application.Commands;
 
-public record CreateProductCommand(string Name, decimal Price) : IRequest<Product>;
+public record CreateProductCommand(string Name, decimal Price) : IRequest<ProductDto>;

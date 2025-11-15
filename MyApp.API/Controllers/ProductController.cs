@@ -13,7 +13,7 @@ public class ProductController : ControllerBase
     private readonly IMediator _mediator;
     public ProductController(IMediator mediator) => _mediator = mediator;
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll() => Ok(await _mediator.Send(new GetAllProductsQuery()));
 
     [HttpGet("{id}")]

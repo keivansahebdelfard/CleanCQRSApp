@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyApp.Application.Commands;
+using MyApp.Application;
 using MyApp.Application.Interfaces;
 using MyApp.Infrastructure.Data;
 using MyApp.Infrastructure.Repositories;
@@ -11,7 +11,7 @@ using MyApp.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -29,10 +29,11 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // 🔹 MediatR Registration (تمام Handlerها و Commandها را خودکار اضافه می‌کند)
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssemblies(
-        typeof(CreateProductCommand).Assembly // Application Handlers
-    );
+cfg.RegisterServicesFromAssemblies(
+    typeof(AssemblyMarker).Assembly
+);
 });
+
 
 
 
@@ -48,10 +49,7 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseAuthorization();
 
-// 🔹 مسیر پیش‌فرض
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Product}/{action=Index}/{id?}"
-);
+// 🔹 Map Controllers
+app.MapControllers();
 
 app.Run();

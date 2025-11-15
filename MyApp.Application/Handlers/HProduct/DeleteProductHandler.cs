@@ -13,11 +13,11 @@ namespace MyApp.Application.Handlers.HProduct
 
         public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var _res = await _repo.DeleteAsync(request.Id);
+            var entity = await _repo.GetByIdAsync(request.Id);
+            if (entity == null) return false;
 
-            return _res;
-
+            await _repo.DeleteAsync(request.Id);
+            return true;
         }
     }
-
 }
