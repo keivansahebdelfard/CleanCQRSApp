@@ -29,9 +29,9 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // 🔹 MediatR Registration (تمام Handlerها و Commandها را خودکار اضافه می‌کند)
 builder.Services.AddMediatR(cfg =>
 {
-cfg.RegisterServicesFromAssemblies(
-    typeof(AssemblyMarker).Assembly
-);
+    cfg.RegisterServicesFromAssemblies(
+        typeof(AssemblyMarker).Assembly
+    );
 });
 
 

@@ -27,4 +27,5 @@ public class ProductController : ControllerBase
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id) => Ok(await _mediator.Send(new DeleteProductCommand(id)));
+
 }
