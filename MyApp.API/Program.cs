@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyApp.API.Class;
 using MyApp.Application;
 using MyApp.Application.Interfaces;
 using MyApp.Infrastructure.Data;
@@ -34,9 +35,6 @@ builder.Services.AddMediatR(cfg =>
     );
 });
 
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapAllEndpoints();
+
 
 app.UseRouting();
 app.UseAuthorization();

@@ -1,22 +1,40 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using MyApp.Domain.Entities;
+using MyApp.Infrastructure.Class;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-    {
-        public AppDbContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Server=.;Database=MyAppDb;Trusted_Connection=True;Encrypt=False;");
+    private readonly DomainEventDispatcher _dispatcher;
 
-            return new AppDbContext(optionsBuilder.Options);
-        }
+    public AppDbContext(DbContextOptions<AppDbContext> options, DomainEventDispatcher dispatcher)
+        : base(options)
+    {
+        _dispatcher = dispatcher;
     }
 
     public DbSet<Product> Products => Set<Product>();
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        int result = await base.SaveChangesAsync(cancellationToken);
+
+        var entities = ChangeTracker.Entries<BaseEntity>()
+            .Select(e => e.Entity)
+            .Where(e => e.DomainEvents.Any())
+            .ToList();
+
+        var events = entities.SelectMany(e => e.DomainEvents).ToList();
+
+        foreach (var entity in entities)
+            entity.ClearDomainEvents();
+
+        await _dispatcher.Dispatch(events);
+
+        return result;
+    }
 }
