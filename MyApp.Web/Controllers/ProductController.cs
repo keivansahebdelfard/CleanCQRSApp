@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MyApp.Application.Commands;
-using MyApp.Application.Queries;
+using MyApp.Application.Commands.Products;
+using MyApp.Application.Queries.Products;
 
 namespace MyApp.Web.Controllers
 {

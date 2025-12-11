@@ -1,16 +1,23 @@
-﻿using MediatR;
-using MyApp.Application.Commands;
-using MyApp.Application.DTOs.Product;
+﻿using AutoMapper;
+using MediatR;
+using MyApp.Application.Commands.Products;
+using MyApp.Application.DTOs.Products;
 using MyApp.Application.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Handlers.HProduct
+namespace MyApp.Application.Handlers.Products
 {
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, ProductDto>
     {
         private readonly IProductRepository _repo;
-        public UpdateProductHandler(IProductRepository repo) => _repo = repo;
+        private readonly IMapper _mapper;
+
+        public UpdateProductHandler(IProductRepository repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
 
         public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
@@ -21,7 +28,7 @@ namespace MyApp.Application.Handlers.HProduct
             entity.Price = request.Price;
 
             var updated = await _repo.UpdateAsync(entity);
-            return new ProductDto(updated.Id, updated.Name, updated.Price);
+            return _mapper.Map<ProductDto>(entity);
         }
     }
 }

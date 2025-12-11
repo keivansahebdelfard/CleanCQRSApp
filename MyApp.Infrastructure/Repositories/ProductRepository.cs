@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Application.Interfaces;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

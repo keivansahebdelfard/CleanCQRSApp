@@ -1,19 +1,25 @@
-﻿using MediatR;
-using MyApp.Application.Commands;
-using MyApp.Application.DTOs.Product;
+﻿using AutoMapper;
+using MediatR;
+using MyApp.Application.Commands.Products;
+using MyApp.Application.DTOs.Products;
 using MyApp.Application.Interfaces;
 using MyApp.Domain.Entities;
-using MyApp.Domain.Events;
+using MyApp.Domain.Events.Products;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Handlers.HProduct
+namespace MyApp.Application.Handlers.Products
 {
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDto>
     {
         private readonly IProductRepository _repo;
+        private readonly IMapper _mapper;
 
-        public CreateProductHandler(IProductRepository repo) => _repo = repo;
+        public CreateProductHandler(IProductRepository repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
 
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
@@ -29,7 +35,7 @@ namespace MyApp.Application.Handlers.HProduct
             // گام ۵: اضافه کردن Domain Event  
             entity.AddDomainEvent(new ProductCreatedEvent(entity));
 
-            return new ProductDto(created.Id, created.Name, created.Price);
+            return _mapper.Map<ProductDto>(created);
         }
     }
 }

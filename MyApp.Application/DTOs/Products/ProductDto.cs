@@ -1,4 +1,4 @@
-﻿namespace MyApp.Application.DTOs.Product
+﻿namespace MyApp.Application.DTOs.Products
 {
     public record ProductDto(int Id, string Name, decimal Price);
 }

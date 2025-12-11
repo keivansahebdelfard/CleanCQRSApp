@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using MyApp.API.Class;
 using MyApp.Application;
 using MyApp.Application.Interfaces;
-using MyApp.Infrastructure.Data;
+using MyApp.Infrastructure.DomainEvents;
 using MyApp.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +24,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+builder.Services.AddAutoMapper(typeof(AssemblyMarker).Assembly);
+
 // 🔹 Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<DomainEventDispatcher>();
+
 
 // 🔹 MediatR Registration (تمام Handlerها و Commandها را خودکار اضافه می‌کند)
 builder.Services.AddMediatR(cfg =>

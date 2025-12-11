@@ -1,9 +1,10 @@
 ﻿using MyApp.Domain.Events;
+using MyApp.Domain.Events.Products;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Handlers.Events.EProduct
+namespace MyApp.Application.Handlers.Events.Products
 {
     public class ProductCreatedEventHandler : IDomainEvent
     {

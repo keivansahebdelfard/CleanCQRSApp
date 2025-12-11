@@ -1,17 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.Class;
-using System.Linq;
+using MyApp.Infrastructure.DomainEvents;
 using System.Threading;
 using System.Threading.Tasks;
-
-namespace MyApp.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
     private readonly DomainEventDispatcher _dispatcher;
 
-    public AppDbContext(DbContextOptions<AppDbContext> options, DomainEventDispatcher dispatcher)
+    public AppDbContext(DbContextOptions<AppDbContext> options,
+                        DomainEventDispatcher dispatcher)
         : base(options)
     {
         _dispatcher = dispatcher;
@@ -23,17 +21,7 @@ public class AppDbContext : DbContext
     {
         int result = await base.SaveChangesAsync(cancellationToken);
 
-        var entities = ChangeTracker.Entries<BaseEntity>()
-            .Select(e => e.Entity)
-            .Where(e => e.DomainEvents.Any())
-            .ToList();
-
-        var events = entities.SelectMany(e => e.DomainEvents).ToList();
-
-        foreach (var entity in entities)
-            entity.ClearDomainEvents();
-
-        await _dispatcher.Dispatch(events);
+        await _dispatcher.DispatchEventsAsync(this);
 
         return result;
     }

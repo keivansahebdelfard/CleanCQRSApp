@@ -1,6 +1,6 @@
 ﻿using MyApp.Domain.Entities;
 
-namespace MyApp.Domain.Events
+namespace MyApp.Domain.Events.Products
 {
     public class ProductCreatedEvent : IDomainEvent
     {

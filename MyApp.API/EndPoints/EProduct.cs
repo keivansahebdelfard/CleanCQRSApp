@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using MyApp.Application.DTOs.Product;
+using MyApp.Application.DTOs.Products;
 using MyApp.Application.Interfaces;
 using System;
 

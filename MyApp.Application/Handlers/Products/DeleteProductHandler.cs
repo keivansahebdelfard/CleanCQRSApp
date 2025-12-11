@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using MyApp.Application.Commands;
+using MyApp.Application.Commands.Products;
 using MyApp.Application.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Handlers.HProduct
+namespace MyApp.Application.Handlers.Products
 {
     public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, bool>
     {

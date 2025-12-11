@@ -1,22 +1,28 @@
-﻿using MediatR;
-using MyApp.Application.DTOs.Product;
+﻿using AutoMapper;
+using MediatR;
+using MyApp.Application.DTOs.Products;
 using MyApp.Application.Interfaces;
-using MyApp.Application.Queries;
+using MyApp.Application.Queries.Products;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Handlers.HProduct
+namespace MyApp.Application.Handlers.Products
 {
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, ProductDto>
     {
         private readonly IProductRepository _repo;
-        public GetProductByIdHandler(IProductRepository repo) => _repo = repo;
+        private readonly IMapper _mapper;
 
+        public GetProductByIdHandler(IProductRepository repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
+        }
         public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             var product = await _repo.GetByIdAsync(request.Id);
             if (product == null) return null;
-            return new ProductDto(product.Id, product.Name, product.Price);
+            return _mapper.Map<ProductDto>(product);
         }
     }
 }
