@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using MyApp.Application.Common.Interfaces;
 using MyApp.Application.DTOs.Products;
-using MyApp.Application.Interfaces;
 using System;
 
 namespace MyApp.API.EndPoints
 {
+    /// <summary>
+    /// Minimal API هستند
+    /// دیگر نیازی به کنترلر ندارند و مستقیم متد رو اجرا می کنند
+    /// دو راه متفاوت فراخوانی متد ها مینیمال ای پی آی ها و مدیاتور ها هستند
+    /// </summary>
     public static class ProdcutEndpoints
     {
         public static void MapEndpoints(this WebApplication app)

@@ -2,7 +2,7 @@ using MyApp.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyApp.Application.Interfaces;
+namespace MyApp.Application.Common.Interfaces;
 
 public interface IProductRepository
 {

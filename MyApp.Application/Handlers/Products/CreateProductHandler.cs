@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using MyApp.Application.Commands.Products;
+using MyApp.Application.Common.Interfaces;
 using MyApp.Application.DTOs.Products;
-using MyApp.Application.Interfaces;
+using MyApp.Application.Features.Products.Commands;
 using MyApp.Domain.Entities;
 using MyApp.Domain.Events.Products;
 using System.Threading;

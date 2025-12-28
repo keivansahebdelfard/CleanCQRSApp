@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Application;
-using MyApp.Application.Commands.Products;
-using MyApp.Application.Interfaces;
-using MyApp.Application.Queries.Products;
+using MyApp.Application.Common.Interfaces;
+using MyApp.Application.Features.Products.Commands;
+using MyApp.Application.Features.Products.Queries;
 using MyApp.Infrastructure.DomainEvents;
 using MyApp.Infrastructure.Repositories;
 

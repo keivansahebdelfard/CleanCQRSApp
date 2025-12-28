@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyApp.API.Class;
 using MyApp.Application;
-using MyApp.Application.Interfaces;
+using MyApp.Application.Common.Interfaces;
 using MyApp.Infrastructure.DomainEvents;
 using MyApp.Infrastructure.Repositories;
 

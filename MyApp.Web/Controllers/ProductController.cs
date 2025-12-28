@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MyApp.Application.Commands.Products;
-using MyApp.Application.Queries.Products;
+using MyApp.Application.Features.Products.Commands;
+using MyApp.Application.Features.Products.Queries;
 
 namespace MyApp.Web.Controllers
 {
@@ -20,7 +20,7 @@ namespace MyApp.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(); // برمی‌گرداند Views/Product/Create.cshtml
+            return View();
         }
 
         [HttpPost]
@@ -53,8 +53,8 @@ namespace MyApp.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _mediator.Send(new GetProductByIdQuery(id));
-            return View(product);
+            var product = await _mediator.Send(new DeleteProductCommand(id));
+            return View("Index");
         }
 
         [HttpPost, ActionName("Delete")]
