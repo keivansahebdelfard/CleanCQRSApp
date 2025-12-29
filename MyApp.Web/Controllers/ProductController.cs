@@ -61,7 +61,7 @@ namespace MyApp.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _mediator.Send(new DeleteProductCommand(id));
-            return View("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost, ActionName("Delete")]

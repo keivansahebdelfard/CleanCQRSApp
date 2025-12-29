@@ -1,4 +1,4 @@
-﻿using MyApp.Domain.Events;
+﻿using MediatR;
 using MyApp.Domain.Events.Products;
 using System;
 using System.Threading;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyApp.Application.Handlers.Events.Products
 {
-    public class ProductCreatedEventHandler : IDomainEvent
+    public class ProductCreatedEventHandler : INotificationHandler<ProductCreatedEvent>
     {
         public Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
         {

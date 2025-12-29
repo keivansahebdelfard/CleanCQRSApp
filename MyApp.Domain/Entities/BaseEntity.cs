@@ -6,16 +6,14 @@ namespace MyApp.Domain.Entities
     public abstract class BaseEntity
     {
         private readonly List<IDomainEvent> _domainEvents = new();
-        public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
         public void AddDomainEvent(IDomainEvent eventItem)
         {
             _domainEvents.Add(eventItem);
         }
 
-        public void ClearDomainEvents()
-        {
-            _domainEvents.Clear();
-        }
+        public void ClearDomainEvents() => _domainEvents.Clear();
     }
+
 }
