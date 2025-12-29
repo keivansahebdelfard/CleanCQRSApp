@@ -26,10 +26,17 @@ namespace MyApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductCommand cmd)
         {
-            if (!ModelState.IsValid) return View(cmd);
-            await _mediator.Send(cmd);
+            var result = await _mediator.Send(cmd);
+
+            if (result.IsFailure)
+            {
+                ModelState.AddModelError(string.Empty, result.Error!.Message);
+                return View(cmd);
+            }
+
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> Edit(int id)
         {

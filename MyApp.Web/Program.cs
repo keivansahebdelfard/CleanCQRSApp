@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Application;
 using MyApp.Application.Common.Interfaces;
-using MyApp.Application.Features.Products.Commands;
-using MyApp.Application.Features.Products.Queries;
 using MyApp.Infrastructure.DomainEvents;
 using MyApp.Infrastructure.Repositories;
 
@@ -21,11 +19,7 @@ builder.Services.AddAutoMapper(typeof(AssemblyMarker).Assembly);
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<DomainEventDispatcher>();
 
-
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssemblies(typeof(CreateProductCommand).Assembly, typeof(GetProductByIdQuery).Assembly);
-});
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
