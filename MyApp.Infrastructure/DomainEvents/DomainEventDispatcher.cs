@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MyApp.Domain.Events;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,10 +20,9 @@ namespace MyApp.Infrastructure.DomainEvents
             IEnumerable<IDomainEvent> events,
             CancellationToken cancellationToken = default)
         {
-            foreach (var domainEvent in events)
-            {
-                await _mediator.Publish(domainEvent, cancellationToken);
-            }
+            var list = events.ToList();
+            var tasks = list.Select(e => _mediator.Publish(e, cancellationToken));
+            await Task.WhenAll(tasks);
         }
     }
 }

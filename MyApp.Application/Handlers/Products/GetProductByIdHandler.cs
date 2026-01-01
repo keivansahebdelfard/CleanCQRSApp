@@ -20,7 +20,7 @@ namespace MyApp.Application.Handlers.Products
         }
         public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _repo.GetByIdAsync(request.Id);
+            var product = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (product == null) return null;
             return _mapper.Map<ProductDto>(product);
         }

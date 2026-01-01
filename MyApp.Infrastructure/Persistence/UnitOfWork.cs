@@ -21,19 +21,19 @@ namespace MyApp.Infrastructure.Persistence
                 _transaction = await _context.Database.BeginTransactionAsync();
         }
 
-        public async Task CommitAsync()
+        public async Task CommitAsync(CancellationToken cancellationToken = default)
         {
             if (_transaction != null)
             {
-                await _context.SaveChangesAsync();
-                await _transaction.CommitAsync();
+                await _context.SaveChangesAsync(cancellationToken);
+                await _transaction.CommitAsync(cancellationToken);
                 await _transaction.DisposeAsync();
                 _transaction = null;
             }
             else
             {
                 // تراکنش لازم نبود، فقط SaveChanges
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
         }
 

@@ -43,14 +43,14 @@ namespace MyApp.Application.Common.Behaviors
                 var response = await next();
 
                 if (useTransaction)
-                    await _unitOfWork.CommitAsync();
+                    await _unitOfWork.CommitAsync(cancellationToken);
                 else
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 // پردازش Domain Events
-                var aggregates = _eventContext.GetAggregatesWithEvents();
-                var events = aggregates.SelectMany(x => x.DomainEvents).ToList();
-                aggregates.ToList().ForEach(x => x.ClearDomainEvents());
+                var list = _eventContext.GetAggregatesWithEvents().ToList();
+                var events = list.SelectMany(x => x.DomainEvents).ToList();
+                list.ForEach(x => x.ClearDomainEvents());
 
                 await _dispatcher.DispatchAsync(events, cancellationToken);
 

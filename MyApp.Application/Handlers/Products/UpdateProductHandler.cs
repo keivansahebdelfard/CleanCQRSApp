@@ -21,7 +21,7 @@ namespace MyApp.Application.Handlers.Products
 
         public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repo.GetByIdAsync(request.Id);
+            var entity = await _repo.GetByIdAsync(request.Id, cancellationToken);
             if (entity == null) return null;
 
             entity.Name = request.Name;

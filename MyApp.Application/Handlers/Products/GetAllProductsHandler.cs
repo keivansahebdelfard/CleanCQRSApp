@@ -21,7 +21,10 @@ namespace MyApp.Application.Handlers.Products
 
         public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _repo.GetAllAsync();
+            var page = request.Page < 1 ? 1 : request.Page;
+            var size = request.PageSize < 1 ? 50 : request.PageSize;
+
+            var products = await _repo.GetPagedAsync(page, size, cancellationToken);
             return _mapper.Map<List<ProductDto>>(products);
         }
     }

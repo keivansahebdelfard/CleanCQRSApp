@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using MyApp.Application.Common.Interfaces;
 using MyApp.Application.DTOs.Products;
-using System;
 
 namespace MyApp.API.EndPoints
 {
@@ -15,16 +15,17 @@ namespace MyApp.API.EndPoints
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            app.MapGet("/api/product/getAll", async (DateTime start, DateTime end, IProductRepository service) =>
+            app.MapGet("/api/product/getAll", async (int? page, int? pageSize, IMediator mediator, System.Threading.CancellationToken cancellationToken) =>
             {
-                var sales = await service.GetAllAsync();
-                return Results.Ok(sales);
+                var products = await mediator.Send(new MyApp.Application.Features.Products.Queries.GetAllProductsQuery(page ?? 1, pageSize ?? 50), cancellationToken);
+                return Results.Ok(products);
             });
 
-            app.MapPost("/api/product/getbyId", async (int id, IProductRepository service) =>
+            app.MapPost("/api/product/getbyId", async (int id, IProductRepository service, System.Threading.CancellationToken cancellationToken) =>
             {
-                await service.GetByIdAsync(id);
-                return Results.Ok();
+                var product = await service.GetByIdAsync(id, cancellationToken);
+                if (product == null) return Results.NotFound();
+                return Results.Ok(product);
             });
 
             app.MapPost("/api/product/add", async (ProductDto product, IProductRepository service) =>

@@ -13,7 +13,7 @@ namespace MyApp.Application.Common.Interfaces
         /// <summary>
         /// Commit تغییرات و پایان تراکنش
         /// </summary>
-        Task CommitAsync();
+        Task CommitAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rollback تغییرات در صورت خطا
