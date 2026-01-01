@@ -15,10 +15,10 @@ namespace MyApp.Infrastructure.Persistence
             _context = context;
         }
 
-        public async Task BeginTransactionAsync()
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_transaction == null)
-                _transaction = await _context.Database.BeginTransactionAsync();
+                _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)

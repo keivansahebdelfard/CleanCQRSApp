@@ -8,7 +8,7 @@ namespace MyApp.Application.Common.Interfaces
         /// <summary>
         /// شروع تراکنش
         /// </summary>
-        Task BeginTransactionAsync();
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Commit تغییرات و پایان تراکنش

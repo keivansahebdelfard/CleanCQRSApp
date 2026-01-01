@@ -36,7 +36,7 @@ namespace MyApp.Application.Common.Behaviors
             bool useTransaction = request is ITransactionalRequest;
 
             if (useTransaction)
-                await _unitOfWork.BeginTransactionAsync();
+                await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             try
             {
