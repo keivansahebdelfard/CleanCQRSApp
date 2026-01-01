@@ -1,22 +1,15 @@
-﻿using MyApp.Domain.Events;
-using System.Collections.Generic;
+﻿using MyApp.Domain.Entities;
 
 namespace MyApp.Domain.Common
 {
-    public abstract class AggregateRoot
+    /// <summary>
+    /// Represents the root of an aggregate in the domain model.
+    /// Keep this type as a semantic marker so infrastructure (for example
+    /// `ChangeTracker.Entries&lt;AggregateRoot&gt;`) can discover aggregate roots.
+    /// Add aggregate-specific behaviors (business rules, helpers, equality, etc.)
+    /// here in the future.
+    /// </summary>
+    public abstract class AggregateRoot : BaseEntity
     {
-        private readonly List<IDomainEvent> _domainEvents = new();
-
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-
-        protected void AddDomainEvent(IDomainEvent domainEvent)
-        {
-            _domainEvents.Add(domainEvent);
-        }
-
-        public void ClearDomainEvents()
-        {
-            _domainEvents.Clear();
-        }
     }
 }
