@@ -27,7 +27,7 @@ namespace MyApp.Application.Handlers.Products
             entity.Name = request.Name;
             entity.Price = request.Price;
 
-            var updated = await _repo.UpdateAsync(entity);
+            var updated = await _repo.UpdateAsync(entity, cancellationToken);
             return _mapper.Map<ProductDto>(entity);
         }
     }

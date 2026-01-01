@@ -16,7 +16,7 @@ namespace MyApp.Application.Handlers.Products
             var entity = await _repo.GetByIdAsync(request.Id);
             if (entity == null) return false;
 
-            await _repo.DeleteAsync(request.Id);
+            await _repo.DeleteAsync(request.Id, cancellationToken);
             return true;
         }
     }

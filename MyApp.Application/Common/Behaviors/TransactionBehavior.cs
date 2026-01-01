@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace MyApp.Application.Common.Behaviors
 {
     public sealed class TransactionBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : notnull
+     : IPipelineBehavior<TRequest, TResponse>
+     where TRequest : notnull
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDomainEventContext _eventContext;
@@ -33,21 +33,35 @@ namespace MyApp.Application.Common.Behaviors
         {
             Console.WriteLine("TRANSACTION BEHAVIOR HIT");
 
-            var response = await next();
+            bool useTransaction = request is ITransactionalRequest;
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            if (useTransaction)
+                await _unitOfWork.BeginTransactionAsync();
 
-            var aggregates = _eventContext.GetAggregatesWithEvents();
+            try
+            {
+                var response = await next();
 
-            var events = aggregates
-                .SelectMany(x => x.DomainEvents)
-                .ToList();
+                if (useTransaction)
+                    await _unitOfWork.CommitAsync();
+                else
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            aggregates.ToList().ForEach(x => x.ClearDomainEvents());
+                // پردازش Domain Events
+                var aggregates = _eventContext.GetAggregatesWithEvents();
+                var events = aggregates.SelectMany(x => x.DomainEvents).ToList();
+                aggregates.ToList().ForEach(x => x.ClearDomainEvents());
 
-            await _dispatcher.DispatchAsync(events, cancellationToken);
+                await _dispatcher.DispatchAsync(events, cancellationToken);
 
-            return response;
+                return response;
+            }
+            catch
+            {
+                if (useTransaction)
+                    await _unitOfWork.RollbackAsync();
+                throw;
+            }
         }
     }
 }
