@@ -22,6 +22,11 @@ namespace MyApp.Application
                 typeof(ValidationBehavior<,>)
             );
 
+            services.AddTransient(
+                  typeof(IPipelineBehavior<,>),
+                  typeof(TransactionBehavior<,>)
+              );
+
             return services;
         }
     }

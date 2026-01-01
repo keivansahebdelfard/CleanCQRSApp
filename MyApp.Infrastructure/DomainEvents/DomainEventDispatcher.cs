@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using MyApp.Domain.Entities;
-using System.Linq;
+using MyApp.Domain.Events;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyApp.Infrastructure.DomainEvents
 {
-    public class DomainEventDispatcher
+    public sealed class DomainEventDispatcher : IDomainEventDispatcher
     {
         private readonly IMediator _mediator;
 
@@ -15,23 +15,13 @@ namespace MyApp.Infrastructure.DomainEvents
             _mediator = mediator;
         }
 
-        public async Task DispatchEventsAsync(DbContext ctx)
+        public async Task DispatchAsync(
+            IEnumerable<IDomainEvent> events,
+            CancellationToken cancellationToken = default)
         {
-            var entities = ctx.ChangeTracker
-                .Entries<BaseEntity>()
-                .Where(e => e.Entity.DomainEvents.Any())
-                .Select(e => e.Entity)
-                .ToList();
-
-            foreach (var entity in entities)
+            foreach (var domainEvent in events)
             {
-                var events = entity.DomainEvents.ToList();
-                entity.ClearDomainEvents();
-
-                foreach (var domainEvent in events)
-                {
-                    await _mediator.Publish(domainEvent);
-                }
+                await _mediator.Publish(domainEvent, cancellationToken);
             }
         }
     }

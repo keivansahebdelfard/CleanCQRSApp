@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MyApp.Application;
 using MyApp.Application.Common.Interfaces;
+using MyApp.Domain.Events;
 using MyApp.Infrastructure.DomainEvents;
+using MyApp.Infrastructure.Persistence;
 using MyApp.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,12 +16,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
         ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
-builder.Services.AddAutoMapper(typeof(AssemblyMarker).Assembly);
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+builder.Services.AddScoped<IDomainEventContext>(sp =>
+    sp.GetRequiredService<AppDbContext>());
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<DomainEventDispatcher>();
 
 builder.Services.AddApplication();
+
+builder.Services.AddAutoMapper(typeof(AssemblyMarker).Assembly);
 
 var app = builder.Build();
 

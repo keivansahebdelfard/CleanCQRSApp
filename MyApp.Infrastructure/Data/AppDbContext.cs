@@ -1,28 +1,56 @@
 using Microsoft.EntityFrameworkCore;
+using MyApp.Application.Common.Interfaces;
+using MyApp.Domain.Common;
 using MyApp.Domain.Entities;
-using MyApp.Infrastructure.DomainEvents;
-using System.Threading;
-using System.Threading.Tasks;
+using MyApp.Domain.Events;
+using System.Collections.Generic;
+using System.Linq;
 
-public class AppDbContext : DbContext
+public sealed class AppDbContext : DbContext, IDomainEventContext
 {
-    private readonly DomainEventDispatcher _dispatcher;
-
-    public AppDbContext(DbContextOptions<AppDbContext> options,
-                        DomainEventDispatcher dispatcher)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        _dispatcher = dispatcher;
     }
 
+    // --------------------
+    // DbSets
+    // --------------------
     public DbSet<Product> Products => Set<Product>();
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    // --------------------
+    // Domain Events (in-memory)
+    // --------------------
+    private readonly List<IDomainEvent> _domainEvents = new();
+
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
+        => _domainEvents.AsReadOnly();
+
+    public void AddDomainEvent(IDomainEvent domainEvent)
     {
-        int result = await base.SaveChangesAsync(cancellationToken);
+        _domainEvents.Add(domainEvent);
+    }
 
-        await _dispatcher.DispatchEventsAsync(this);
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
 
-        return result;
+    // --------------------
+    // EF Core Config
+    // --------------------
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+    }
+
+    public IReadOnlyCollection<AggregateRoot> GetAggregatesWithEvents()
+    {
+        return ChangeTracker
+            .Entries<AggregateRoot>()
+            .Where(x => x.Entity.DomainEvents.Any())
+            .Select(x => x.Entity)
+            .ToList();
     }
 }

@@ -5,7 +5,6 @@ using MyApp.Application.Common.Results;
 using MyApp.Application.DTOs.Products;
 using MyApp.Application.Features.Products.Commands;
 using MyApp.Domain.Entities;
-using MyApp.Domain.Events.Products;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,15 +23,7 @@ namespace MyApp.Application.Handlers.Products
 
         public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            // 1. ساخت Aggregate (ترجیحاً از Factory Method)
-            var product = new Product
-            {
-                Name = request.Name,
-                Price = request.Price
-            };
-
-            // 2. Domain Event باید روی خود Aggregate ثبت شود
-            product.AddDomainEvent(new ProductCreatedEvent(product));
+            var product = Product.Create(request.Name, request.Price);
 
             // 3. Persist
             var created = await _repo.AddAsync(product, cancellationToken);
